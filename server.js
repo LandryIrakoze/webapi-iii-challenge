@@ -12,14 +12,15 @@ server.get('/', (req, res) => {
 //global middleware
 server.use(express.json());
 
-server.use('/api/user', userRouter);
-server.use('/api/posts', postRouter);
+server.use('/api/user', logger, userRouter);
+server.use('/api/posts', logger, postRouter);
 
 //custom middleware
 function logger(req, res, next) {
   console.log({
-    'req': req,
-    'res': res,
+    'req method': req.method,
+    'req url': req.url,
+    'timestamp': Date.now()
   })
   next();
 };
