@@ -12,7 +12,7 @@ router.post('/', validateUser, (req, res) => {
         })
 });
 
-router.post('/:id/posts', validateUser, (req, res) => {
+router.post('/:id/posts', validatePost, (req, res) => {
     userDb.insert(req.body)
         .then(user => {
             res.status(200).json(user)
@@ -74,7 +74,9 @@ router.put('/:id', validateUserId, validateUser, (req, res) => {
 
 //custom middleware
 function validateUserId(req, res, next) {
+    console.log(req.body)
     if (req.params.id) {
+        console.log('id', req.params.id)
         req.user = req.params.id;
     } else {
         res.status(400).json({ message: 'invalid user id' });
@@ -89,7 +91,7 @@ function validateUser(req, res, next) {
         res.status(400).json({ message: 'missing required name field' });
     }
     next();
-}; //update
+}; 
 
 function validatePost(req, res, next) {
     if (!req.body) {
@@ -99,6 +101,6 @@ function validatePost(req, res, next) {
         res.status(400).json({ message: 'missing required text field' });
         next();
     }
-}; //update
+}; 
 
 module.exports = router;

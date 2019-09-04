@@ -26,30 +26,27 @@ function logger(req, res, next) {
 };
 
 function validateUserId(req, res, next) {
-  let { id } = req.params;
-  if (id) {
+  if (req.params.id) {
     req.user = id;
   } else {
     res.status(400).json({ message: 'invalid user id' })
   }
   next();
-};
+}; //update
 
 function validateUser(req, res, next) {
-  let { body } = req.body;
-  if (!body) {
+  if (!req.body) {
     res.status(400).json({ message: 'missing user data' })
-  } else if (!body.name) {
+  } else if (!req.body.name) {
     res.status(400).json({ message: 'missing required name field' })
   }
   next();
 }
 
 function validatePost(req, res, next) {
-  let { body } = req.body;
-  if (!body) {
+  if (!req.body) {
     res.status(400).json({ message: 'missing post data '})
-  } else if (!body.text) {
+  } else if (!req.body.text) {
     res.status(400).json({ message: 'missing required text field' })
   }
 }

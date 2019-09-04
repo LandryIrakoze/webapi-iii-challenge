@@ -69,6 +69,6 @@ function validatePostId(req, res, next) {
         res.status(400).json({ message: 'missing required text field' });
     }
     next();
-}; //update
+};
 
 module.exports = router;
