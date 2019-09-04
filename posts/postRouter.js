@@ -4,7 +4,6 @@ const postDb = require('./postDb');
 
 // router.post('/', (req, res) => {
 //     const body = req.body;
-
 //     postDb.insert(body)
 //         .then(res => {
 //             res.status(200).json(res)
