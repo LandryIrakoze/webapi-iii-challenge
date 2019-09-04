@@ -4,7 +4,6 @@ const userDb = require('./userDb');
 
 // router.post('/', (req, res) => {
 //     const body = req.body;
-
 //     userDb.insert(body)
 //         .then(res => {
 //             res.status(200).json(res)
@@ -25,7 +24,6 @@ router.post('/', validateUser, (req, res) => {
 
 // router.post('/:id/posts', (req, res) => {
 //     const body = req.body;
-
 //     userDb.insert(body)
 //         .then(res => {
 //             res.status(200).json(res)
@@ -56,7 +54,6 @@ router.get('/', (req, res) => {
 
 // router.get('/:id', (req, res) => {
 //     const { id } = req.params;
-
 //     userDb.getById(id)
 //         .then(res => {
 //             res.status(200).json(res)
@@ -77,7 +74,6 @@ router.get('/:id', validateUserId, (req, res) => {
 
 // router.get('/:id/posts', (req, res) => {
 //     const { id } = req.params;
-
 //     userDb.getUserPosts(id)
 //         .then(res => {
 //             res.status(200).json(res)
@@ -98,7 +94,6 @@ router.get('/:id/posts', validateUserId, (req, res) => {
 
 // router.delete('/:id', (req, res) => {
 //     const { id } = req.params;
-
 //     userDb.remove(id)
 //         .then(res => {
 //             res.status(200).json(res)
@@ -120,7 +115,6 @@ router.delete('/:id', validateUserId, (req, res) => {
 // router.put('/:id', (req, res) => {
 //     const { id } = req.params;
 //     const body = req.body;
-
 //     userDb.update(id, body)
 //         .then(res => {
 //             res.status(200).json(res)
