@@ -14,8 +14,8 @@ const userDb = require('./userDb');
 // });
 router.post('/', validateUser, (req, res) => {
     userDb.insert(body)
-        .then(res => {
-            res.status(200).json(res)
+        .then(user => {
+            res.status(200).json(user)
         })
         .catch(error => {
             res.status(500).json({ message: 'error creating user' })
@@ -34,8 +34,8 @@ router.post('/', validateUser, (req, res) => {
 // });
 router.post('/:id/posts', validateUser, (req, res) => {
     userDb.insert(body)
-        .then(res => {
-            res.status(200).json(res)
+        .then(user => {
+            res.status(200).json(user)
         })
         .catch(error => {
             res.status(500).json({ message: 'error creating user' })
@@ -44,8 +44,8 @@ router.post('/:id/posts', validateUser, (req, res) => {
 
 router.get('/', (req, res) => {
     userDb.get()
-        .then(res => {
-            res.status(200).json(res)
+        .then(user => {
+            res.status(200).json(user)
         })
         .catch(error => {
             res.status(500).json({ message: 'error fetching users' })
@@ -64,8 +64,8 @@ router.get('/', (req, res) => {
 // });
 router.get('/:id', validateUserId, (req, res) => {
     userDb.getById(req.user)
-        .then(res => {
-            res.status(200).json(res)
+        .then(user => {
+            res.status(200).json(user)
         })
         .catch(error => {
             res.status(500).json({ message: 'error fetching user' })
@@ -84,8 +84,8 @@ router.get('/:id', validateUserId, (req, res) => {
 // });
 router.get('/:id/posts', validateUserId, (req, res) => {
     userDb.getUserPosts(req.user)
-        .then(res => {
-            res.status(200).json(res)
+        .then(user => {
+            res.status(200).json(user)
         })
         .catch(error => {
             res.status(500).json({ message: 'error fetching user post' })
@@ -104,8 +104,8 @@ router.get('/:id/posts', validateUserId, (req, res) => {
 // });
 router.delete('/:id', validateUserId, (req, res) => {
     userDb.remove(req.user)
-        .then(res => {
-            res.status(200).json(res)
+        .then(user => {
+            res.status(200).json(user)
         })
         .catch(error => {
             res.status(500).json({ message: 'error removing user' })
@@ -125,8 +125,8 @@ router.delete('/:id', validateUserId, (req, res) => {
 // });
 router.put('/:id', validateUserId, validateUser, (req, res) => {
     userDb.update(req.user, body)
-        .then(res => {
-            res.status(200).json(res)
+        .then(user => {
+            res.status(200).json(user)
         })
         .catch(error => {
             res.status(500).json({ message: 'error updating user' })

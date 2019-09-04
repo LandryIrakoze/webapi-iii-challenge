@@ -24,8 +24,8 @@ router.post('/', validatePostId, (req, res) => {
 
 router.get('/', (req, res) => {
     postDb.get()
-        .then(res => {
-            res.status(200).json(res)
+        .then(user => {
+            res.status(200).json(user)
         })
         .catch(error => {
             res.status(500).json({ message: 'error retrieving posts' })
@@ -44,8 +44,8 @@ router.get('/', (req, res) => {
 // });
 router.get('/:id', validateUserId, (req, res) => {
     postDb.getById(req.user)
-        .then(res => {
-            res.status(200).json(res)
+        .then(user => {
+            res.status(200).json(user)
         })
         .catch(error => {
             res.status(500).json({ message: 'error retrieving post' })
@@ -64,8 +64,8 @@ router.get('/:id', validateUserId, (req, res) => {
 // });
 router.delete('/:id', validateUserId, (req, res) => {
     postDb.remove(req.user)
-        .then(res => {
-            res.status(200).json(res)
+        .then(user => {
+            res.status(200).json(user)
         })
         .catch(error => {
             res.status(500).json({ message: 'error removing post' })
