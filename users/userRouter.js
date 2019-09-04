@@ -2,9 +2,18 @@ const express = require('express');
 const router = express.Router();
 const userDb = require('./userDb');
 
-router.post('/', (req, res) => {
-    const body = req.body;
+// router.post('/', (req, res) => {
+//     const body = req.body;
 
+//     userDb.insert(body)
+//         .then(res => {
+//             res.status(200).json(res)
+//         })
+//         .catch(error => {
+//             res.status(500).json({ message: 'error creating user' })
+//         })
+// });
+router.post('/', validateUser, (req, res) => {
     userDb.insert(body)
         .then(res => {
             res.status(200).json(res)
@@ -14,9 +23,18 @@ router.post('/', (req, res) => {
         })
 });
 
-router.post('/:id/posts', (req, res) => {
-    const body = req.body;
+// router.post('/:id/posts', (req, res) => {
+//     const body = req.body;
 
+//     userDb.insert(body)
+//         .then(res => {
+//             res.status(200).json(res)
+//         })
+//         .catch(error => {
+//             res.status(500).json({ message: 'error creating user' })
+//         })
+// });
+router.post('/:id/posts', validateUser, (req, res) => {
     userDb.insert(body)
         .then(res => {
             res.status(200).json(res)
@@ -48,7 +66,6 @@ router.get('/', (req, res) => {
 //         })
 // });
 router.get('/:id', validateUserId, (req, res) => {
-
     userDb.getById(req.user)
         .then(res => {
             res.status(200).json(res)
@@ -70,7 +87,6 @@ router.get('/:id', validateUserId, (req, res) => {
 //         })
 // });
 router.get('/:id/posts', validateUserId, (req, res) => {
-
     userDb.getUserPosts(req.user)
         .then(res => {
             res.status(200).json(res)
@@ -92,7 +108,6 @@ router.get('/:id/posts', validateUserId, (req, res) => {
 //         })
 // });
 router.delete('/:id', validateUserId, (req, res) => {
-
     userDb.remove(req.user)
         .then(res => {
             res.status(200).json(res)
@@ -102,11 +117,20 @@ router.delete('/:id', validateUserId, (req, res) => {
         })
 });
 
-router.put('/:id', (req, res) => {
-    const { id } = req.params;
-    const body = req.body;
+// router.put('/:id', (req, res) => {
+//     const { id } = req.params;
+//     const body = req.body;
 
-    userDb.update(id, body)
+//     userDb.update(id, body)
+//         .then(res => {
+//             res.status(200).json(res)
+//         })
+//         .catch(error => {
+//             res.status(500).json({ message: 'error updating user' })
+//         })
+// });
+router.put('/:id', validateUserId, validateUser, (req, res) => {
+    userDb.update(req.user, body)
         .then(res => {
             res.status(200).json(res)
         })
@@ -119,10 +143,12 @@ router.put('/:id', (req, res) => {
 function validateUserId(req, res, next) {
     const { id } = req.params;
 
-    if (!id) {
-        req.user = id
+    if (id) {
+        req.user = id;
+        next();
     } else {
-        res.status(400).json({ message: 'invalid user id' })
+        res.status(400).json({ message: 'invalid user id' });
+        next();
     }
 };
 
@@ -130,9 +156,11 @@ function validateUser(req, res, next) {
     const body = req.body;
 
     if (!body) {
-        res.status(400).json({ message: 'missing user data' })
+        res.status(400).json({ message: 'missing user data' });
+        next();
     } else if (!body.name) {
-        res.status(400).json({ message: 'missing required name field' })
+        res.status(400).json({ message: 'missing required name field' });
+        next();
     }
 };
 
@@ -140,11 +168,12 @@ function validatePost(req, res, next) {
     const body = req.body;
     
     if (!body) {
-        res.status(400).json({ message: 'missing post data' })
+        res.status(400).json({ message: 'missing post data' });
+        next();
     } else if (!body.text) {
-        res.status(400).json({ message: 'missing required text field' })
+        res.status(400).json({ message: 'missing required text field' });
+        next();
     }
-    next();
 };
 
 module.exports = router;
