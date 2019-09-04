@@ -36,10 +36,20 @@ router.get('/', (req, res) => {
         })
 });
 
-router.get('/:id', (req, res) => {
-    const { id } = req.params;
+// router.get('/:id', (req, res) => {
+//     const { id } = req.params;
 
-    userDb.getById(id)
+//     userDb.getById(id)
+//         .then(res => {
+//             res.status(200).json(res)
+//         })
+//         .catch(error => {
+//             res.status(500).json({ message: 'error fetching user' })
+//         })
+// });
+router.get('/:id', validateUserId, (req, res) => {
+
+    userDb.getById(req.user)
         .then(res => {
             res.status(200).json(res)
         })
@@ -48,10 +58,20 @@ router.get('/:id', (req, res) => {
         })
 });
 
-router.get('/:id/posts', (req, res) => {
-    const { id } = req.params;
+// router.get('/:id/posts', (req, res) => {
+//     const { id } = req.params;
 
-    userDb.getUserPosts(id)
+//     userDb.getUserPosts(id)
+//         .then(res => {
+//             res.status(200).json(res)
+//         })
+//         .catch(error => {
+//             res.status(500).json({ message: 'error fetching user post' })
+//         })
+// });
+router.get('/:id/posts', validateUserId, (req, res) => {
+
+    userDb.getUserPosts(req.user)
         .then(res => {
             res.status(200).json(res)
         })
@@ -60,10 +80,20 @@ router.get('/:id/posts', (req, res) => {
         })
 });
 
-router.delete('/:id', (req, res) => {
-    const { id } = req.params;
+// router.delete('/:id', (req, res) => {
+//     const { id } = req.params;
 
-    userDb.remove(id)
+//     userDb.remove(id)
+//         .then(res => {
+//             res.status(200).json(res)
+//         })
+//         .catch(error => {
+//             res.status(500).json({ message: 'error removing user' })
+//         })
+// });
+router.delete('/:id', validateUserId, (req, res) => {
+
+    userDb.remove(req.user)
         .then(res => {
             res.status(200).json(res)
         })
