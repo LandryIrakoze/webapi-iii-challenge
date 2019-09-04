@@ -62,17 +62,6 @@ router.delete('/:id', validateUserId, (req, res) => {
         })
 });
 
-// router.put('/:id', (req, res) => {
-//     const { id } = req.params;
-//     const body = req.body;
-//     userDb.update(id, body)
-//         .then(res => {
-//             res.status(200).json(res)
-//         })
-//         .catch(error => {
-//             res.status(500).json({ message: 'error updating user' })
-//         })
-// });
 router.put('/:id', validateUserId, validateUser, (req, res) => {
     userDb.update(req.user, req.body)
         .then(user => {
@@ -81,19 +70,16 @@ router.put('/:id', validateUserId, validateUser, (req, res) => {
         .catch(error => {
             res.status(500).json({ message: 'error updating user' })
         })
-}); //update
+});
 
 //custom middleware
 function validateUserId(req, res, next) {
-    const { id } = req.params;
-
-    if (id) {
-        req.user = id;
-        next();
+    if (req.params.id) {
+        req.user = req.params.id;
     } else {
         res.status(400).json({ message: 'invalid user id' });
-        next();
     }
+    next();
 }; //update
 
 function validateUser(req, res, next) {
@@ -103,7 +89,7 @@ function validateUser(req, res, next) {
         res.status(400).json({ message: 'missing required name field' });
     }
     next();
-};
+}; //update
 
 function validatePost(req, res, next) {
     if (!req.body) {
@@ -113,6 +99,6 @@ function validatePost(req, res, next) {
         res.status(400).json({ message: 'missing required text field' });
         next();
     }
-};
+}; //update
 
 module.exports = router;
