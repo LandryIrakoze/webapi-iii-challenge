@@ -70,7 +70,7 @@ function validateUserId(req, res, next) {
             res.status(500).json({ message: 'error validating user' })
         })
     next();
-}; //update
+};
 
 function validatePostId(req, res, next) {
     if (!req.body) {
