@@ -32,20 +32,37 @@ router.get('/', (req, res) => {
         })
 });
 
-router.get('/:id', validateUserId, (req, res) => {
-    userDb.getById(req.user)
-        .then(user => {
-            res.status(200).json(user)
+router.get('/:id', validateUser, (req, res) => {
+    userDb.getById(req.params.id)
+        .then(item => {
+            if (item) {
+                res.status(200).json(item)
+            } else {
+                res.status(400).json({ message: 'invalid user id' })
+            }
         })
         .catch(error => {
-            res.status(500).json({ message: 'error fetching user' })
+            res.status(500).json({ message: 'error validating user' })
         })
 });
 
+// router.get('/:id/posts', validateUserId, (req, res) => {
+//     userDb.getUserPosts(req.user)
+//         .then(user => {
+//             res.status(200).json(user)
+//         })
+//         .catch(error => {
+//             res.status(500).json({ message: 'error fetching user post' })
+//         })
+// }); 
 router.get('/:id/posts', validateUserId, (req, res) => {
-    userDb.getUserPosts(req.user)
-        .then(user => {
-            res.status(200).json(user)
+    userDb.getUserPosts(req.params.id)
+        .then(item => {
+            if (item) {
+                res.status(200).json(item)
+            } else {
+                res.status(400).json({ message: 'user has no posts' })
+            }
         })
         .catch(error => {
             res.status(500).json({ message: 'error fetching user post' })
@@ -72,17 +89,20 @@ router.put('/:id', validateUserId, validateUser, (req, res) => {
         })
 });
 
-//custom middleware
 function validateUserId(req, res, next) {
-    console.log(req.body)
-    if (req.params.id) {
-        console.log('id', req.params.id)
-        req.user = req.params.id;
-    } else {
-        res.status(400).json({ message: 'invalid user id' });
-    }
+    userDb.getById(req.params.id)
+        .then(item => {
+            if (item) {
+                req.user = req.params.id
+            } else {
+                res.status(400).json({ message: 'invalid user id' })
+            }
+        })
+        .catch(error => {
+            res.status(500).json({ message: 'error validating user' })
+        })
     next();
-}; //update
+}; 
 
 function validateUser(req, res, next) {
     if (!req.body) {
