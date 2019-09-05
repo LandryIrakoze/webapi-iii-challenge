@@ -4,13 +4,14 @@ const postDb = require('./postDb');
 
 router.post('/', validatePostId, (req, res) => {
     postDb.insert(req.body)
-        .then(res => {
-            res.status(200).json(res)
+        .then(user => {
+            res.status(200).json(user)
         })
         .catch(error => {
+            console.log('body', req.body);
             res.status(500).json({ message: 'error creating post' })
         })
-})
+}) //update
 
 router.get('/', (req, res) => {
     postDb.get()
@@ -37,24 +38,24 @@ router.get('/:id', validateUserId, (req, res) => {
 });
 
 router.delete('/:id', validateUserId, (req, res) => {
-    postDb.remove(req.user)
+    postDb.remove(req.params.id)
         .then(user => {
             res.status(200).json(user)
         })
         .catch(error => {
             res.status(500).json({ message: 'error removing post' })
         })
-});
+}); 
 
 router.put('/:id', validateUserId, validatePostId, (req, res) => {
     postDb.update(req.user, req.body)
-        .then(res => {
-            res.status().json()
+        .then(user => {
+            res.status(200).json(user)
         })
         .catch(error => {
-            res.status().json({ message: 'error updating post' })
+            res.status(500).json({ message: 'error updating post' })
         })
-});
+}); //update
 
 // custom middleware
 function validateUserId(req, res, next) {
