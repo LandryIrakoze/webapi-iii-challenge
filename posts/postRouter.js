@@ -23,13 +23,17 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', validateUserId, (req, res) => {
-    postDb.getById(req.user)
-        .then(user => {
-            res.status(200).json(user)
-        })
-        .catch(error => {
-            res.status(500).json({ message: 'error retrieving post' })
-        })
+    postDb.getById(req.params.id)
+    .then(item => {
+        if (item) {
+            res.status(200).json(item)
+        } else {
+            res.status(400).json({ message: 'invalid user id' })
+        }
+    })
+    .catch(error => {
+        res.status(500).json({ message: 'error validating user' })
+    })
 });
 
 router.delete('/:id', validateUserId, (req, res) => {
@@ -54,11 +58,17 @@ router.put('/:id', validateUserId, validatePostId, (req, res) => {
 
 // custom middleware
 function validateUserId(req, res, next) {
-    if (!req.params.id) {
-        req.user = req.params.id;
-    } else {
-        res.status(400).json({ message: 'invalid user id' });
-    }
+    postDb.getById(req.params.id)
+        .then(item => {
+            if (item) {
+                req.user = req.params.id
+            } else {
+                res.status(400).json({ message: 'invalid user id' })
+            }
+        })
+        .catch(error => {
+            res.status(500).json({ message: 'error validating user' })
+        })
     next();
 }; //update
 
