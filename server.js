@@ -2,6 +2,8 @@ const express = require('express');
 
 const server = express();
 
+// const secrets = require('../config/secrets.js');
+
 const userRouter = require('./users/userRouter');
 const postRouter = require('./posts/postRouter')
 
