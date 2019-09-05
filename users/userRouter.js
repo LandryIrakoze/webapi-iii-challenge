@@ -46,15 +46,6 @@ router.get('/:id', validateUser, (req, res) => {
         })
 });
 
-// router.get('/:id/posts', validateUserId, (req, res) => {
-//     userDb.getUserPosts(req.user)
-//         .then(user => {
-//             res.status(200).json(user)
-//         })
-//         .catch(error => {
-//             res.status(500).json({ message: 'error fetching user post' })
-//         })
-// }); 
 router.get('/:id/posts', validateUserId, (req, res) => {
     userDb.getUserPosts(req.params.id)
         .then(item => {
